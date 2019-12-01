@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.6.0",
+    "ccxt": "^1.20.20",
     "meteor-node-stubs": "^1.0.0"
   }
 }

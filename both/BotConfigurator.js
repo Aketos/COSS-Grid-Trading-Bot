@@ -101,8 +101,3 @@ class BotConfigurator {
 BotConfig = new Mongo.Collection('bot_configuration', {
     transform: (doc) => new BotConfigurator(doc)
 });
-
-
-// Create an animal and call its `makeNoise` method.
-//BotConfig.insert({ name: 'raptor', sound: 'roar' });
-//BotConfig.findOne({ name: 'raptor' }).makeNoise(); // Prints 'roar'

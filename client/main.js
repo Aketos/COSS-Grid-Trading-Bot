@@ -23,11 +23,20 @@ Template.botConfig.helpers({
 
 Template.testT.helpers({
     show() {
-        config = BotConfig.find().fetch()[0];
-        if (typeof config != 'undefined') {
-            return BotConfig.find().fetch()[0].test();
+        botConfig = BotConfig.find().fetch()[0];
+        apiConfig = ApiConfig.find().fetch()[0];
+        if (typeof botConfig != 'undefined') {
+            Bot.addApiConfiguration(apiConfig);
+            Meteor.call('fetchCossBalance', (error, result) => { console.log(result); });
+            return botConfig.test();
         }
     }
+});
+
+Template.main.events({
+    'click .toggler'(event, instance) {
+        $('.privateConf').toggle();
+    },
 });
 
 Template.privateConfig.events({
