@@ -15,6 +15,11 @@ Template.main.helpers({
     },
 });
 
+Template.botConfig.helpers({
+    config() {
+        return BotConfig.find().fetch()[0];
+    },
+});
 
 //Template.main.events({
 //    'click button'(event, instance) {
@@ -37,6 +42,12 @@ Template.privateConfig.events({
 
 Template.botConfig.events({
     'submit .save-bot-config'(event, instance) {
+        if (BotConfig.find().count() != 0) {
+            BotConfig.remove(
+                BotConfig.find().fetch()[0]._id
+            );
+        }
+
         BotConfig.insert({
             pairAToken: event.target.pairAToken.value,
             pairABalance: event.target.pairABalance.value,

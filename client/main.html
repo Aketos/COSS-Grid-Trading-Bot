@@ -32,11 +32,11 @@
             <i>(ex: trade 100 SATTY tokens with 10000 USD)</i>
         </label>
         <br />
-        <input type="text" name="pairAToken" placeholder="SATTY" />
-        <input type="text" name="pairABalance" placeholder="100" />
+        <input type="text" name="pairAToken" placeholder="SATTY" value="{{config.pairAToken}}" />
+        <input type="text" name="pairABalance" placeholder="100" value="{{config.pairABalance}}" />
         <br />
-        <input type="text" name="pairBToken" placeholder="USD" />
-        <input type="text" name="pairBBalance" placeholder="100000" />
+        <input type="text" name="pairBToken" placeholder="USD" value="{{config.pairBToken}}" />
+        <input type="text" name="pairBBalance" placeholder="100000" value="{{config.pairBBalance}}" />
         <br />
         <br />
         <label>
@@ -44,18 +44,18 @@
             <i>(ex: You expect price to swing in between 80 and 120 USD in the coming days)</i>
         </label>
         <br />
-        <input type="text" name="minPriceExpected" placeholder="80" />
-        <input type="text" name="maxPriceExpected" placeholder="120" />
+        <input type="text" name="minPriceExpected" placeholder="80" value="{{config.minPriceExpected}}" />
+        <input type="text" name="maxPriceExpected" placeholder="120" value="{{config.maxPriceExpected}}" />
         <br />
         <br />
         <label><b>Ordersize</b> (number of tokens to trade per order)</label>
         <br />
-        <input type="text" name="orderSize" placeholder="5" />
+        <input type="text" name="orderSize" placeholder="5" value="{{config.orderSize}}" />
         <br />
         <br />
         <label><b>Number of grids</b></label>
         <br />
-        <input type="text" name="grids" placeholder="40" />
+        <input type="text" name="grids" placeholder="40" value="{{config.grids}}" />
         <br />
         <br />
         <button type="submit"> Save </button>
