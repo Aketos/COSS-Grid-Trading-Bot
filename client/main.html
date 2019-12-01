@@ -1,0 +1,87 @@
+<head>
+    <title>COSS-Grid-Trading-Bot</title>
+</head>
+
+<body>
+    {{> main}}
+</body>
+
+<template name="privateConfig">
+    <form class="save-api-config">
+        <label>COSS API private Key*</label>
+        <br />
+        <input type="text" name="privateKey" />
+        <br />
+        <br />
+        <label>COSS API public Key*</label>
+        <br />
+        <input type="text" name="publicKey" />
+        <br />
+        <br />
+        <button type="submit"> Save </button>
+        <br />
+        <br />
+        <i>*Keys can be found on <a href="https://www.coss.io/c/accounts/api" style="text-decoration: none"> Your COSS account parameters </a> </i>
+    </form>
+</template>
+
+<template name="botConfig">
+    <form class="save-bot-config">
+        <label>
+            <b>Pair you want to trade</b> <br />
+            <i>(ex: trade 100 SATTY tokens with 10000 USD)</i>
+        </label>
+        <br />
+        <input type="text" name="pairAToken" placeholder="SATTY" />
+        <input type="text" name="pairABalance" placeholder="100" />
+        <br />
+        <input type="text" name="pairBToken" placeholder="USD" />
+        <input type="text" name="pairBBalance" placeholder="100000" />
+        <br />
+        <br />
+        <label>
+            <b>Lower & Upper price range</b> <br />
+            <i>(ex: You expect price to swing in between 80 and 120 USD in the coming days)</i>
+        </label>
+        <br />
+        <input type="text" name="minPriceExpected" placeholder="80" />
+        <input type="text" name="maxPriceExpected" placeholder="120" />
+        <br />
+        <br />
+        <label><b>Ordersize</b> (number of tokens to trade per order)</label>
+        <br />
+        <input type="text" name="orderSize" placeholder="5" />
+        <br />
+        <br />
+        <label><b>Number of grids</b></label>
+        <br />
+        <input type="text" name="grids" placeholder="40" />
+        <br />
+        <br />
+        <button type="submit"> Save </button>
+    </form>
+</template>
+
+<template name="orders">
+
+</template>
+
+<template name="main">
+    <h1>Welcome to the COSS platform Grid-Trading-Bot!</h1>
+    {{#if isApiConfigSet}}
+    {{> botConfig}}
+    {{> orders}}
+    {{else}}
+    {{> privateConfig}}
+    {{/if}}
+</template>
+
+<template name="info">
+    <h2>Learn Meteor!</h2>
+    <ul>
+        <li><a href="https://www.meteor.com/try" target="_blank">Do the Tutorial</a></li>
+        <li><a href="http://guide.meteor.com" target="_blank">Follow the Guide</a></li>
+        <li><a href="https://docs.meteor.com" target="_blank">Read the Docs</a></li>
+        <li><a href="https://forums.meteor.com" target="_blank">Discussions</a></li>
+    </ul>
+</template>
