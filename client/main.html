@@ -4,6 +4,7 @@
 
 <body>
     {{> main}}
+    {{> testT}}
 </body>
 
 <template name="privateConfig">
@@ -64,6 +65,19 @@
 
 <template name="orders">
 
+</template>
+
+<template name="testT">
+    {{#if show}}
+    {{/if}}
+
+    <!-- test: {{test.buys.0.quantity
+    }} /-->
+    <!--{{#each ord in test.buys}}
+    {{#each val in ord}}
+    {{val.quantity}}
+    {{/each}}
+    {{/each}}-->
 </template>
 
 <template name="main">

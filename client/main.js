@@ -21,15 +21,14 @@ Template.botConfig.helpers({
     },
 });
 
-//Template.main.events({
-//    'click button'(event, instance) {
-//        // increment the counter when button is clicked
-//        instance.counter.set(instance.counter.get() + 1);
-//        Test.insert({
-//            testValue: instance.counter.get()
-//        })
-//    },
-//});
+Template.testT.helpers({
+    show() {
+        config = BotConfig.find().fetch()[0];
+        if (typeof config != 'undefined') {
+            return BotConfig.find().fetch()[0].test();
+        }
+    }
+});
 
 Template.privateConfig.events({
     'submit .save-api-config'(event, instance) {
