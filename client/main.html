@@ -3,12 +3,15 @@
 </head>
 
 <body>
-    {{> main}}
-    {{> testT}}
+    <div class="view-style">
+        {{> main}}
+        {{> testT}}
+        </div>
 </body>
 
 <template name="privateConfig">
     <form class="save-api-config">
+        <br />
         <label>COSS API private Key*</label>
         <br />
         <input type="text" name="privateKey" />
@@ -74,17 +77,20 @@
 <template name="main">
     <h1>Welcome to the COSS platform Grid-Trading-Bot!</h1>
     {{#if isApiConfigSet}}
-    <button class="toggler"> Show/Hide private configuration (EDIT) </button>
-    <br />
-    <br />
+    <button class="toggler-private-conf"> Show/Hide private configuration (EDIT) </button>
     <div class="privateConf" style="display: none;">
         {{> privateConfig}}
     </div>
     <br />
     <br />
-    {{> botConfig}}
-    {{> orders}}
-    {{else}}
-    {{> privateConfig}}
-    {{/if}}
+    <button class="toggler-bot-conf"> Show/Hide bot configuration (EDIT) </button>
+    <br />
+    <br />
+    <div class="botConf">
+        {{> botConfig}}
+    </div>
+        {{> orders}}
+        {{else}}
+        {{> privateConfig}}
+        {{/if}}
 </template>

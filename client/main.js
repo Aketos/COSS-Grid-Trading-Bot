@@ -34,8 +34,11 @@ Template.testT.helpers({
 });
 
 Template.main.events({
-    'click .toggler'(event, instance) {
+    'click .toggler-private-conf'(event, instance) {
         $('.privateConf').toggle();
+    },
+    'click .toggler-bot-conf'(event, instance) {
+        $('.botConf').toggle();
     },
 });
 
