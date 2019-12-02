@@ -8,6 +8,18 @@
     border: 6px solid #305A72;
 }
 
+    .view-style h1 {
+        background: #28739E;
+        text-transform: uppercase;
+        font-family: 'Open Sans Condensed', sans-serif;
+        color: #FFFFFF;
+        text-align: center;
+        font-size: 18px;
+        font-weight: 100;
+        padding: 20px;
+        margin: -30px -30px 30px -30px;
+    }
+
     .view-style ul {
         padding: 0;
         margin: 0;
@@ -59,23 +71,32 @@
                 height: 100px;
             }
 
-            .view-style button,
-            .view-style input[type="submit"] {
-                -moz-box-shadow: inset 0px 1px 0px 0px #3985B1;
-                -webkit-box-shadow: inset 0px 1px 0px 0px #3985B1;
-                box-shadow: inset 0px 1px 0px 0px #3985B1;
-                background-color: #216288;
-                border: 1px solid #17445E;
-                display: inline-block;
-                cursor: pointer;
-                color: #FFFFFF;
-                padding: 8px 18px;
-                text-decoration: none;
-                font: 12px Arial, Helvetica, sans-serif;
-            }
+    .view-style button,
+    .view-style input[type="submit"] {
+        -moz-box-shadow: inset 0px 1px 0px 0px #3985B1;
+        -webkit-box-shadow: inset 0px 1px 0px 0px #3985B1;
+        box-shadow: inset 0px 1px 0px 0px #3985B1;
+        background-color: #216288;
+        border: 1px solid #17445E;
+        display: inline-block;
+        cursor: pointer;
+        color: #FFFFFF;
+        padding: 8px 18px;
+        text-decoration: none;
+        font: 12px Arial, Helvetica, sans-serif;
+    }
 
-                .view-style button:hover,
-                .view-style input[type="submit"]:hover {
-                    background: linear-gradient(to bottom, #2D77A2 5%, #337DA8 100%);
-                    background-color: #28739E;
-                }
+    .view-style .toggler {
+        width: 400px;
+    }
+
+    .view-style .start-stop {
+        width: 400px;
+        background: #109177;
+    }
+    
+        .view-style button:hover,
+        .view-style input[type="submit"]:hover {
+            background: linear-gradient(to bottom, #2D77A2 5%, #337DA8 100%);
+            background-color: #28739E;
+        }

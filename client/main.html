@@ -67,7 +67,30 @@
 </template>
 
 <template name="orders">
-
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Title</th>
+                <th>Phone 1</th>
+                <th>Phone 2</th>
+                <th>Phone 3</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each contact in orders}}
+            <tr class="clickable" name="edit-contact">
+                <td>{{contact.name}}</td>
+                <td>{{contact.email}}</td>
+                <td>{{contact.title}}</td>
+                <td>{{contact.phone1}}</td>
+                <td>{{contact.phone2}}</td>
+                <td>{{contact.phone3}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
 </template>
 
 <template name="testT">
@@ -77,20 +100,23 @@
 <template name="main">
     <h1>Welcome to the COSS platform Grid-Trading-Bot!</h1>
     {{#if isApiConfigSet}}
-    <button class="toggler-private-conf"> Show/Hide private configuration (EDIT) </button>
+    <button class="toggler toggler-private-conf"> Show/Hide private configuration (EDIT) </button>
     <div class="privateConf" style="display: none;">
         {{> privateConfig}}
     </div>
     <br />
     <br />
-    <button class="toggler-bot-conf"> Show/Hide bot configuration (EDIT) </button>
+    <button class="toggler toggler-bot-conf"> Show/Hide bot configuration (EDIT) </button>
     <br />
     <br />
     <div class="botConf">
         {{> botConfig}}
     </div>
-        {{> orders}}
-        {{else}}
-        {{> privateConfig}}
-        {{/if}}
+    <br />
+    <button class="start-stop"> Start/Stop the Bot </button>
+    <label>{{botState}}</label>
+    {{> orders}}
+    {{else}}
+    {{> privateConfig}}
+    {{/if}}
 </template>

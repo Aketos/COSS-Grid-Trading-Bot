@@ -3,16 +3,23 @@ import { ReactiveVar } from 'meteor/reactive-var';
 
 import './main.html';
 
-Template.main.onCreated(function helloOnCreated() {
-    // counter starts at 0
-    this.counter = new ReactiveVar(0);
+Template.main.onCreated(function ini() {
+    this.botState = new ReactiveVar('Stoped');
 });
 
+Template.orders.onCreated(function iniOrders() {
+    buys = BuyOrders.find().fetch();
+    sells = SellOrders.find().fetch();
+    this.orders = new ReactiveVar(buys.concat(sells));
+});
 
 Template.main.helpers({
     isApiConfigSet() {
         return ApiConfig.find().count() != 0;
     },
+    botState() {
+        return Template.instance().botState.get();
+    }
 });
 
 Template.botConfig.helpers({
@@ -40,6 +47,13 @@ Template.main.events({
     'click .toggler-bot-conf'(event, instance) {
         $('.botConf').toggle();
     },
+    'click .start-stop'(event, instance) {
+        if (Template.instance().botState.get() == 'Stoped') {
+            Template.instance().botState.set('Started');
+        } else {
+            Template.instance().botState.set('Stoped');
+        }
+    },
 });
 
 Template.privateConfig.events({
@@ -64,10 +78,10 @@ Template.botConfig.events({
             pairABalance: event.target.pairABalance.value,
             pairBToken: event.target.pairBToken.value,
             pairBBalance: event.target.pairBBalance.value,
-            minPriceExpected: event.target.minPriceExpected.value,
-            maxPriceExpected: event.target.maxPriceExpected.value,
-            orderSize: event.target.orderSize.value,
-            grids: event.target.grids.value
+            minPriceExpected: parseInt(event.target.minPriceExpected.value),
+            maxPriceExpected: parseInt(event.target.maxPriceExpected.value),
+            orderSize: parseInt(event.target.orderSize.value),
+            grids: parseInt(event.target.grids.value)
         })
     },
 });

@@ -22,7 +22,7 @@ class BotConfigurator {
 
     // Calculate the price to use on every buy order
     calculateAmountPerBuy() {
-        return this.calculateBasePrice() * this.orderSize;
+        return this.calculateBasePrice() * parseInt(this.orderSize);
 
     }
 
