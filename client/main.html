@@ -70,23 +70,21 @@
     <table>
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Title</th>
-                <th>Phone 1</th>
-                <th>Phone 2</th>
-                <th>Phone 3</th>
+                <th>Pair</th>
+                <th>Order</th>
+                <th>Quantity</th>
+                <th>Value</th>
+                <th>Status</th>
             </tr>
         </thead>
         <tbody>
-            {{#each contact in orders}}
+            {{#each order in orders}}
             <tr class="clickable" name="edit-contact">
-                <td>{{contact.name}}</td>
-                <td>{{contact.email}}</td>
-                <td>{{contact.title}}</td>
-                <td>{{contact.phone1}}</td>
-                <td>{{contact.phone2}}</td>
-                <td>{{contact.phone3}}</td>
+                <td>{{order.pair}}</td>
+                <td>{{order.order}}</td>
+                <td>{{order.quantity}}</td>
+                <td>{{order.value}}</td>
+                <td>{{order.status}}</td>
             </tr>
             {{/each}}
         </tbody>
@@ -115,6 +113,8 @@
     <br />
     <button class="start-stop"> Start/Stop the Bot </button>
     <label>{{botState}}</label>
+    <br />
+    <br />
     {{> orders}}
     {{else}}
     {{> privateConfig}}

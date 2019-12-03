@@ -8,9 +8,7 @@ Template.main.onCreated(function ini() {
 });
 
 Template.orders.onCreated(function iniOrders() {
-    buys = BuyOrders.find().fetch();
-    sells = SellOrders.find().fetch();
-    this.orders = new ReactiveVar(buys.concat(sells));
+    this.orders = new ReactiveVar([]);
 });
 
 Template.main.helpers({
@@ -19,6 +17,12 @@ Template.main.helpers({
     },
     botState() {
         return Template.instance().botState.get();
+    }
+});
+
+Template.orders.helpers({
+    orders() {
+        return Orders.find().fetch();
     }
 });
 
@@ -31,12 +35,17 @@ Template.botConfig.helpers({
 Template.testT.helpers({
     show() {
         botConfig = BotConfig.find().fetch()[0];
-        apiConfig = ApiConfig.find().fetch()[0];
-        if (typeof botConfig != 'undefined') {
-            Bot.addApiConfiguration(apiConfig);
-            Meteor.call('fetchCossBalance', (error, result) => { console.log(result); });
-            return botConfig.test();
-        }
+        Meteor.call('fetchCossOrders', botConfig.pairAToken, botConfig.pairBToken, (error, result) => {
+            console.log(result);
+            console.log(error);
+        });
+        //botConfig = BotConfig.find().fetch()[0];
+        //apiConfig = ApiConfig.find().fetch()[0];
+        //if (typeof botConfig != 'undefined') {
+        //    Bot.addApiConfiguration(apiConfig);
+        //    Meteor.call('fetchCossBalance', (error, result) => { console.log(result); });
+        //    return botConfig.test();
+        //}
     }
 });
 
@@ -50,8 +59,22 @@ Template.main.events({
     'click .start-stop'(event, instance) {
         if (Template.instance().botState.get() == 'Stoped') {
             Template.instance().botState.set('Started');
+            // create orders
+            botConfig = BotConfig.find().fetch()[0];
+            orders = botConfig.defineOrdersList();
+
+            orders.forEach((newOrder) => {
+                Meteor.call(
+                    'generateGridOrders',
+                    newOrder,
+                    botConfig.pairAToken,
+                    botConfig.pairBToken,
+                    (error, result) => { });
+            });
         } else {
             Template.instance().botState.set('Stoped');
+            // cancel all orders
+            Meteor.call('cancelAllOrders', (error, result) => { });
         }
     },
 });

@@ -34,12 +34,13 @@ class BotConfigurator {
 	// Define all buys and sell orders
     defineOrdersList() {
         var orders = new Object();
-        orders['buys'] = this.defineBuyOrders();
-        orders['sells'] = this.defineSellOrders();
+        //orders['buy'] = this.defineBuyOrders();
+        //orders['sell'] = this.defineSellOrders();
 
-        if (this.areValidOrders(orders)) {
-            return orders;
-        }
+        return this.defineBuyOrders().concat(this.defineSellOrders());
+        //if (this.areValidOrders(orders)) {
+        //    return orders;
+        //}
     }
 
     // Define the list of buy orders to generate
@@ -50,6 +51,7 @@ class BotConfigurator {
             var order = new Object();
             order['quantity'] = this.amountPerBuy;
             order['orderPrice'] = i;
+            order['order'] = 'buy';
             buyOrders.push(order);
         }
 
@@ -64,6 +66,7 @@ class BotConfigurator {
             var order = new Object();
             order['quantity'] = this.orderSize;
             order['orderPrice'] = i;
+            order['order'] = 'sell';
             sellOrders.push(order);
         }
 
@@ -71,17 +74,17 @@ class BotConfigurator {
     }
 
 	// Check if balances are big enough
-    areValidOrders(orders) {
-        if ((orders.buys.length * this.amountPerBuy) > this.pairBBalance) {
-            return false;
-        }
+    //areValidOrders(orders) {
+    //    if ((orders.buy.length * this.amountPerBuy) > this.pairBBalance) {
+    //        return false;
+    //    }
 
-        if ((orders.sells.length * this.orderSize) > this.pairABalance) {
-            return false;
-        }
+    //    if ((orders.sell.length * this.orderSize) > this.pairABalance) {
+    //        return false;
+    //    }
 
-        return true;
-    }
+    //    return true;
+    //}
 
     test() {
         console.log(this.defineOrdersList());
@@ -92,7 +95,7 @@ class BotConfigurator {
         var o = new Object();
         o['quantity'] = '546';
         var orders = new Object();
-        orders['buys'] = o;
+        orders['buy'] = o;
         return orders;
         //return this.defineOrdersList();
     }

@@ -1,16 +1,14 @@
 class BotCossApi {
     ccxt = require('ccxt');
     cossApi;
-    configurator;
+    botConfig;
 
-    
-    constructor() {}
+    constructor() { }
 
-    addApiConfiguration(configurator) {
-        //this.configurator = configurator;
+    addApiConfiguration(apiConfig) {
         this.cossApi = new this.ccxt.coss({
-            apiKey: configurator.publicKey,
-            secret: configurator.privateKey
+            apiKey: apiConfig.publicKey,
+            secret: apiConfig.privateKey
         });
     }
 
@@ -20,6 +18,25 @@ class BotCossApi {
 
     async fetchBalance() {
         return await this.cossApi.fetchBalance();
+    }
+
+    async fetchOpenOrders(pairAToken, pairBToken) {
+        return await this.cossApi.fetchOpenOrders(pairAToken + '/' + pairBToken);
+    }
+
+    async createLimitOrder(order, pairAToken, pairBToken, quantity, price) {
+        var pair = pairAToken + '/' + pairBToken;
+        console.log(order, pairAToken, pairBToken, quantity, price);
+        if (order == 'buy') {
+            return await createLimitBuyOrder(pair, quantity, price);
+        } else {
+            return await this.cossApi.createLimitSellOrder(pair, quantity, price);
+        }
+    }
+
+    test() {
+        var exchange = new this.ccxt['coss']();
+        console.log(exchange.has)
     }
 }
 
