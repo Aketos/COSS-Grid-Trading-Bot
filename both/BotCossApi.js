@@ -3,7 +3,8 @@ class BotCossApi {
     cossApi;
     botConfig;
 
-    constructor() { }
+    constructor() {
+    }
 
     addApiConfiguration(apiConfig) {
         this.cossApi = new this.ccxt.coss({
@@ -16,6 +17,12 @@ class BotCossApi {
         return this.cossApi;
     }
 
+    async resolvePromise(promise) {
+        return promise
+            .then(result => ({ success: true, result }))
+            .catch(error => ({ success: false, error }))
+    }
+
     async fetchBalance() {
         return await this.cossApi.fetchBalance();
     }
@@ -26,12 +33,25 @@ class BotCossApi {
 
     async createLimitOrder(order, pairAToken, pairBToken, quantity, price) {
         var pair = pairAToken + '/' + pairBToken;
-        console.log(order, pairAToken, pairBToken, quantity, price);
-        if (order == 'buy') {
-            return await createLimitBuyOrder(pair, quantity, price);
-        } else {
-            return await this.cossApi.createLimitSellOrder(pair, quantity, price);
-        }
+
+        return new Promise(async (resolve, reject) => {
+            for (let i = 1; i <= 3; i++) {
+                if (order == 'buy') {
+                    var newOrder = await this.resolvePromise(this.cossApi.createLimitBuyOrder(pair, quantity, price));
+                } else {
+                    var newOrder = await this.resolvePromise(this.cossApi.createLimitSellOrder(pair, quantity, price));
+                }
+               
+                if (
+                    newOrder.success
+                    && newOrder.result['id']
+                ) {
+                    resolve(newOrder.result);
+                    return;
+                }
+            }
+            reject(new Error('Fail to ' + order + ' ' + quantity + ' of ' + pair + ' at ' + price));
+        });
     }
 
     test() {

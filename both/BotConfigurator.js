@@ -33,10 +33,6 @@ class BotConfigurator {
 
 	// Define all buys and sell orders
     defineOrdersList() {
-        var orders = new Object();
-        //orders['buy'] = this.defineBuyOrders();
-        //orders['sell'] = this.defineSellOrders();
-
         return this.defineBuyOrders().concat(this.defineSellOrders());
         //if (this.areValidOrders(orders)) {
         //    return orders;
