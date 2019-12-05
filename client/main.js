@@ -73,8 +73,10 @@ Template.main.events({
                             'fetchCossOrders',
                             botConfig.pairAToken,
                             botConfig.pairBToken,
-                            (error, result) => { }), 1000
-                    })
+                            (error, result) => { })
+                    },
+                    1000
+                )
             );
         } else {
             Meteor.clearTimeout(Template.instance().loop.get());
