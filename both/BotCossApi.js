@@ -32,7 +32,7 @@ class BotCossApi {
     }
 
     async createLimitOrder(order, pairAToken, pairBToken, quantity, price) {
-        var pair = pairAToken + '/' + pairBToken;
+        var pair = pairAToken + '_' + pairBToken;
 
         return new Promise(async (resolve, reject) => {
             for (let i = 1; i <= 3; i++) {
@@ -51,6 +51,24 @@ class BotCossApi {
                 }
             }
             reject(new Error('Fail to ' + order + ' ' + quantity + ' of ' + pair + ' at ' + price));
+        });
+    }
+
+
+    async createCancellationOrder(id, pair) {
+        return new Promise(async (resolve, reject) => {
+            for (let i = 1; i <= 3; i++) {
+                var cancelledOrder = await this.resolvePromise(this.cossApi.cancelOrder(id, pair));
+
+                if (
+                    cancelledOrder.success
+                    && cancelledOrder.result['id']
+                ) {
+                    resolve(cancelledOrder.result);
+                    return;
+                }
+            }
+            reject(new Error('Fail to cancel order ' + id + ' on token pair ' + pair));
         });
     }
 

@@ -5,6 +5,7 @@ import './main.html';
 
 Template.main.onCreated(function ini() {
     this.botState = new ReactiveVar('Stoped');
+    this.loop = new ReactiveVar();
 });
 
 Template.orders.onCreated(function iniOrders() {
@@ -35,17 +36,10 @@ Template.botConfig.helpers({
 Template.testT.helpers({
     show() {
         botConfig = BotConfig.find().fetch()[0];
-        Meteor.call('fetchCossOrders', botConfig.pairAToken, botConfig.pairBToken, (error, result) => {
+        Meteor.call('fetchCMC', botConfig.pairAToken, botConfig.pairBToken, (error, result) => {
             console.log(result);
             console.log(error);
         });
-        //botConfig = BotConfig.find().fetch()[0];
-        //apiConfig = ApiConfig.find().fetch()[0];
-        //if (typeof botConfig != 'undefined') {
-        //    Bot.addApiConfiguration(apiConfig);
-        //    Meteor.call('fetchCossBalance', (error, result) => { console.log(result); });
-        //    return botConfig.test();
-        //}
     }
 });
 
@@ -59,22 +53,33 @@ Template.main.events({
     'click .start-stop'(event, instance) {
         if (Template.instance().botState.get() == 'Stoped') {
             Template.instance().botState.set('Started');
-            // create orders
-            botConfig = BotConfig.find().fetch()[0];
-            orders = botConfig.defineOrdersList();
 
-            orders.forEach((newOrder) => {
-                Meteor.call(
-                    'generateGridOrders',
-                    newOrder,
-                    botConfig.pairAToken,
-                    botConfig.pairBToken,
-                    (error, result) => { });
-            });
+            //botConfig = BotConfig.find().fetch()[0];
+            //orders = botConfig.defineOrdersList();
+
+            //orders.forEach((newOrder) => {
+            //    Meteor.call(
+            //        'generateGridOrders',
+            //        newOrder,
+            //        botConfig.pairAToken,
+            //        botConfig.pairBToken,
+            //        (error, result) => { });
+            //});
+
+            Template.instance().loop.set(
+                Meteor.setInterval(
+                    () => {
+                        Meteor.call(
+                            'fetchCossOrders',
+                            botConfig.pairAToken,
+                            botConfig.pairBToken,
+                            (error, result) => { }), 1000
+                    })
+            );
         } else {
+            Meteor.clearTimeout(Template.instance().loop.get());
+            Meteor.call('cancelAllOpenOrders', (error, result) => { });
             Template.instance().botState.set('Stoped');
-            // cancel all orders
-            Meteor.call('cancelAllOrders', (error, result) => { });
         }
     },
 });
