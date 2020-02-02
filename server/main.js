@@ -22,18 +22,36 @@ Meteor.methods({
         return Bot.fetchBalance();
     },
 
-    async sleepFct() {
-        return 'sleep';
-    },
     async fetchCossOrders(pairAToken, pairBToken) {
-        console.log('loop'); return true;
-        Bot.addApiConfiguration(ApiConfig.find().fetch()[0]);
+        config = ApiConfig.find().fetch()[0];
+        Bot.addApiConfiguration(config);
 
         var registeredOrder = await Bot.resolvePromise(
             Bot.fetchOpenOrders(pairAToken, pairBToken)
         );
+        var openOrders = Orders.find().fetch();
 
         if (registeredOrder.success) {
+            registeredOrder.result.forEach((order) => {
+                for (var i = openOrders.length - 1; i >= 0; i--) {
+                    if (openOrders[i].cossId === order.id) {
+                        openOrders.splice(i, 1);
+                    }
+                }
+            });
+
+            openOrders.forEach((orderFilled) => {
+                // Create oposite order @config.basePrice
+                if (orderFilled.order == 'BUY') {
+                    createLimitOrder('SELL', pairAToken, pairBToken, baseOrder.quantity, config.basePrice);
+                } else {
+                    createLimitOrder('BUY', pairAToken, pairBToken, baseOrder.quantity, config.basePrice);
+                }
+
+                // CLOSE order
+                Orders.update({ cossId: orderFilled.cossId }, { $set: { status: 'CLOSED' } });
+            })
+           
             //registeredOrder.push();
             //Orders.insert({
             //    pair: pairAToken + '/' + pairBToken,
@@ -67,24 +85,7 @@ Meteor.methods({
 
     async generateGridOrders(baseOrder, pairAToken, pairBToken) {
         Bot.addApiConfiguration(ApiConfig.find().fetch()[0]);
-
-        var registeredOrder = await Bot.resolvePromise(
-            Bot.createLimitOrder(baseOrder.order, pairAToken, pairBToken, baseOrder.quantity, baseOrder.orderPrice)
-        );
-
-        if (registeredOrder.success) {
-            registeredOrder.push();
-            Orders.insert({
-                pair: pairAToken + '/' + pairBToken,
-                order: baseOrder.order.toUpperCase(),
-                quantity: baseOrder.quantity,
-                value: baseOrder.orderPrice,
-                status: 'OPEN',
-                cossId: registeredOrder.result.id
-            })
-        } else {
-            console.log(registeredOrder.error);
-        }
+        createLimitOrder(baseOrder.order, pairAToken, pairBToken, baseOrder.quantity, baseOrder.orderPrice);
 
         return true;
     },
@@ -105,5 +106,25 @@ Meteor.methods({
                 console.log(registeredOrder.error);
             }
         });
+    },
+
+    async createLimitOrder(order, pairAToken, pairBToken ,quantity, price) {
+        var registeredOrder = await Bot.resolvePromise(
+            Bot.createLimitOrder(order, pairAToken, pairBToken, quantity, price)
+        );
+
+        if (registeredOrder.success) {
+            registeredOrder.push();
+            Orders.insert({
+                pair: pairAToken + '/' + pairBToken,
+                order: baseOrder.order,
+                quantity: baseOrder.quantity,
+                value: baseOrder.orderPrice,
+                status: 'OPEN',
+                cossId: registeredOrder.result.id
+            })
+        } else {
+            console.log(registeredOrder.error);
+        }
     }
 });

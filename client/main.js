@@ -108,10 +108,10 @@ Template.botConfig.events({
             pairABalance: event.target.pairABalance.value,
             pairBToken: event.target.pairBToken.value,
             pairBBalance: event.target.pairBBalance.value,
-            minPriceExpected: parseInt(event.target.minPriceExpected.value),
-            maxPriceExpected: parseInt(event.target.maxPriceExpected.value),
-            orderSize: parseInt(event.target.orderSize.value),
-            grids: parseInt(event.target.grids.value)
+            minPriceExpected: parseFloat(event.target.minPriceExpected.value),
+            maxPriceExpected: parseFloat(event.target.maxPriceExpected.value),
+            orderSize: parseFloat(event.target.orderSize.value),
+            grids: parseFloat(event.target.grids.value)
         })
     },
 });

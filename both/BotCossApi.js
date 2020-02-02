@@ -28,20 +28,24 @@ class BotCossApi {
     }
 
     async fetchOpenOrders(pairAToken, pairBToken) {
-        return await this.cossApi.fetchOpenOrders(pairAToken + '/' + pairBToken);
+        return await this.cossApi.fetchOpenOrders(pairAToken + '_' + pairBToken);
     }
 
     async createLimitOrder(order, pairAToken, pairBToken, quantity, price) {
         var pair = pairAToken + '_' + pairBToken;
+        console.log(order);
+        console.log(pair);
+        console.log(quantity);
+        console.log(price);
 
         return new Promise(async (resolve, reject) => {
             for (let i = 1; i <= 3; i++) {
-                if (order == 'buy') {
+                if (order == 'BUY') {
                     var newOrder = await this.resolvePromise(this.cossApi.createLimitBuyOrder(pair, quantity, price));
                 } else {
                     var newOrder = await this.resolvePromise(this.cossApi.createLimitSellOrder(pair, quantity, price));
                 }
-               
+                console.log(newOrder);
                 if (
                     newOrder.success
                     && newOrder.result['id']
